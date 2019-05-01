@@ -1,0 +1,36 @@
+{% extends "_layouts/default.njk" %}
+
+{% block body %}
+  <div class="content">
+    <strong>Seus agendamentos</strong>
+    <input type="text" class="flatpickr" placeholder="Escolha uma data" />
+
+    <p>Seus agendamentos para {{ day }}:</p>
+
+    <ul class="providers">
+      {% for scheduling in schedulings %}
+        <li class="provider">
+          <div>
+            <img src="/files/{{ scheduling.avatar }}" />
+            <strong>{{ scheduling.name }} <br> {{ scheduling.date }}</strong>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <a href="/app/dashboard" class="logout">Voltar</a>
+
+  <script type="text/javascript">
+    flatpickr('.flatpickr', {
+      minDate: new Date(),
+      dateFormat: 'd/m/Y',
+      onChange: function (date) {
+        fetch(`/app/schedule/?date=${date[0].getTime()}`).then(function (response) {
+          response.text().then(function (html) {
+            document.body.innerHTML = html
+          })
+        })
+      }
+    })
+  </script>
+{% endblock %}
