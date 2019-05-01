@@ -1,1 +1,1 @@
-# desafio02
+# Aplicação GoBarber - Desafio 02 NodeJS
